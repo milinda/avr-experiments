@@ -1,0 +1,3 @@
+[submodule "kb/lufa"]
+	path = kb/lufa
+	url = https://github.com/abcminiuser/lufa.git
