@@ -71,6 +71,19 @@ OBJDUMP        = avr-objdump
 
 all: $(PRG).elf lst text eeprom
 
+dfu: hex
+	until dfu-programmer $(MCU_TARGET) get bootloader-version; do\
+		echo "Error: Bootloader not found. Trying again in 5s." ;\
+		sleep 5 ;\
+	done
+ifneq (, $(findstring 0.7, $(shell dfu-programmer --version 2>&1)))
+	dfu-programmer $(MCU_TARGET) erase --force
+else
+	dfu-programmer $(MCU_TARGET) erase
+endif
+	dfu-programmer $(MCU_TARGET) flash $(PRG).hex
+	dfu-programmer $(MCU_TARGET) reset
+
 $(PRG).elf: $(OBJ)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
 

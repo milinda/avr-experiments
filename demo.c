@@ -23,6 +23,6 @@ int main(void) {
     PORTB |= (1<<7);
     _delay_ms(1000);
     PORTB &= ~(1<<7);
-    _delay_ms(5000);
+    _delay_ms(1000);
   }
 }
